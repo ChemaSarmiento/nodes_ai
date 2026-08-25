@@ -1,0 +1,59 @@
+project:
+  name: AI AML Layer
+
+status:
+  phase: MVP
+  architecture_frozen: true
+
+storage:
+  - redshift
+  - athena
+  - s3
+
+graph:
+  engine: networkx
+  persistent: false
+
+packet:
+  immutable: true
+
+llm:
+  input:
+    - explanation_packet
+  forbidden:
+    - sql
+    - graph
+    - redshift
+    - athena
+
+business:
+  entities:
+    - Client
+    - Contract
+    - ContractGroup
+    - CashMovement
+    - ExternalBankAccount
+    - HouseConcentrationAccount
+    - AMLCase
+
+cases:
+  - CASH_IN_OUT
+  - REPEATED_ROUND_TRIP
+  - SHARED_EXTERNAL_ACCOUNT
+  - NEW_DESTINATION
+  - KYC_MISMATCH
+  - TOP_CONTRACT_FLOW
+
+architecture:
+  trigger_engine: true
+  queue: true
+  graph_builder: true
+  feature_engine: true
+  packet_builder: true
+  llm_worker: true
+
+principles:
+  - graph_as_compute
+  - deterministic_execution
+  - immutable_packets
+  - human_in_the_loop
